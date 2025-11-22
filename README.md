@@ -31,7 +31,7 @@ This pipeline was first entirely developed in Windows. It is now being thoroughl
 ## Example usage
 Create the function get_hex:
 ````
-CREATE OR REPLACE FUNCTION get_hex(a_flight TEXT, a_date       DATE)
+CREATE OR REPLACE FUNCTION get_hex(a_flight TEXT, a_date DATE)
 RETURNS TEXT AS $$
 DECLARE a_hex TEXT;
 
