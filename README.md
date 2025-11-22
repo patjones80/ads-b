@@ -28,4 +28,37 @@ The script examines all records in the ````flights```` that were inserted since 
 ## Architecture notes
 This pipeline was first entirely developed in Windows. It is now being thoroughly tested with Python execution on the Raspberry Pi, and the database has been ported to Amazon RDS. 
 
+## Example usage
+Create the function get_hex:
+````
+CREATE OR REPLACE FUNCTION get_hex(a_flight TEXT, a_date       DATE)
+RETURNS TEXT AS $$
+DECLARE a_hex TEXT;
+
+BEGIN
+    SELECT hex INTO a_hex
+    FROM flights_kpdx
+    WHERE flight = $1 AND adsb_date = $2;
+
+    RETURN a_hex;
+END;
+
+$$
+LANGUAGE plpgsql;
+````
+This returns the ICAO hex code associated with the aircraft for a specific flight on a particular date. This function persists in the database after creation and usage. Query with it like so:
+
+````
+SELECT *
+FROM flights_kpdx
+     LEFT JOIN icao_lookup il ON il.hex = flights_kpdx.hex
+WHERE adsb_date = '2025-11-22'
+      AND (flight = 'ASA126' 
+           OR (flights_kpdx.hex = (SELECT *
+                                   FROM get_hex('ASA126',                
+                                                '2025-11-22')) AND flight IS NULL))
+ORDER BY now DESC;
+````
+In this way, we can pick up records for the flight where the ````flight = NULL```` , which is a common occurrence.
+
 > Written with [StackEdit](https://stackedit.io/).
