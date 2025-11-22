@@ -19,7 +19,7 @@ The Python scripts ````collect_history.py```` and ````insert_flights.py```` run 
 [![Basic pipeline flow](docs/overall_pipeline.png)](docs/overall_pipeline.pdf)
 
 ## Aircraft type lookup by ICAO hex code
-The Python script ````read_icao.py```` can be run on an *ad hoc* basis to pull aircraft information (type and owner) into the ````icao_lookup```` table. This utilizes the hexdb.io API, and in particular this endpoint: https://hexdb.io/api/aircraft/%7Bhex_code%7D.
+The Python script ````read_icao.py```` can be run on an *ad hoc* basis to pull aircraft information (type and owner) into the ````icao_lookup```` table. This utilizes the hexdb.io API, and in particular this endpoint: https://hexdb.io/api/aircraft/hex_code.
 
 The script examines all records in the ````flights```` that were inserted since the previous run of the script (determined by the maximum ````load_date```` in ````icao_lookup````). Hex codes that cause the API to return a 404 get inserted in ````icao_not_found````.
 
