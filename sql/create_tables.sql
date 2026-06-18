@@ -3,7 +3,7 @@
 -- Drop table
 -- DROP TABLE public.flights;
 
-CREATE TABLE public.flights (
+CREATE TABLE public.flights_kpdx (
 	now numeric(11, 1) NULL,
 	adsb_date date NULL,
 	adsb_time time NULL,
@@ -53,6 +53,7 @@ CREATE TABLE public.flights (
 	inserted_at timestamp DEFAULT CURRENT_TIMESTAMP NULL,
 	"version" int4 NULL,
 	nac_v int4 NULL,
+	"type" varchar NULL,
 	CONSTRAINT flights_kpdx_unique UNIQUE (now, hex)
 );
 
